@@ -1,0 +1,40 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Navbar Styling */
+.navbar-brand img {
+    margin-right: 10px;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: white;
+    transition: color 0.3s;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #ffc107;
+}
+
+.navbar-nav .nav-item .active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #e9ecef;
+    padding: 10px;
+    text-align: center;
+}
+
+
+.responsive-svg-container {
+    margin-right: auto;
+    margin-left: auto;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
