@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>D3 Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    svg {
+      width: 100%;
+      height: auto;
+    }
+    .legend {
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8">
+      <h4>Monthly Fines by Jurisdiction (Stacked)</h4>
+      <div id="stacked-chart"></div>
+    </div>
+    <div class="col-md-4">
+      <h4>Age Group Distribution</h4>
+      <div id="pie-chart"></div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <h4>Fines by Jurisdiction (Bar Chart)</h4>
+      <div id="bar-chart"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="js/shared-constants.js"></script>
+<script src="js/stacked-chart.js"></script>
+<script src="js/pie-chart.js"></script>
+<script src="js/bar-chart.js"></script>
+</body>
+</html>
