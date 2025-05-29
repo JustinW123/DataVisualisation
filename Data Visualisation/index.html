@@ -5,47 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>D3 Dashboard</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <style>
-    body { padding: 20px; }
-    h2 { margin-top: 30px; }
-    #pie-chart, #bar-chart, #stacked-chart { margin-top: 20px; }
-  </style>
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+  <div class="d-flex">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <h5 class="text-white mb-4">Dashboard</h5>
+      <a href="home.html">Home</a>
+      <a href="index.html" class="active">Dashboard</a>
+      <a href="about.html">About</a>
+    </nav>
 
-  <!-- ✅ Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-    <a class="navbar-brand" href="index.html">Dashboard</a>
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link active" href="index.html">Dashboard</a></li>
-        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-      </ul>
-    </div>
-  </nav>
+    <!-- Main content -->
+    <main class="main-content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-8 chart-box">
+            <h2>Monthly Fines by Jurisdiction (Stacked)</h2>
+            <div id="stacked-chart"></div>
+            <div id="stacked-legend" class="mt-3"></div>
+          </div>
+          <div class="col-md-4 chart-box">
+            <h2>Age Group Distribution</h2>
+            <div id="pie-chart"></div>
+            <div id="pie-legend" class="mt-3"></div>
+          </div>
+        </div>
 
-  <!-- D3 Chart Sections -->
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <h2>Monthly Fines by Jurisdiction (Stacked)</h2>
-        <div id="stacked-chart"></div>
+        <div class="row">
+          <div class="col-12 chart-box">
+            <h2>Fines by Age Group (Bar Chart)</h2>
+            <div id="bar-chart"></div>
+          </div>
+        </div>
       </div>
-      <div class="col-md-4">
-        <h2>Age Group Distribution</h2>
-        <div id="pie-chart"></div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <h2>Fines by Age Group (Bar Chart)</h2>
-        <div id="bar-chart"></div>
-      </div>
-    </div>
+    </main>
   </div>
 
-  <!-- Scripts -->
+  <!-- D3 Scripts -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="js/shared-constants.js"></script>
   <script src="js/stacked-chart.js"></script>
