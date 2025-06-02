@@ -51,7 +51,11 @@ body {
   padding: 1.5rem;
   margin-bottom: 2rem;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 420px;
 }
 
 /* Headings */
@@ -62,24 +66,170 @@ h2 {
   color: #212529;
 }
 
-/* Responsive SVGs */
-svg {
-  max-width: 100%;
-  height: auto;
-  display: block;
+/* Enlarge Chart Button */
+.enlarge-btn {
+  float: right;
+  background-color: #dee2e6;
+  border: none;
+  padding: 4px 8px;
+  margin-left: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  transition: background-color 0.2s ease;
 }
 
-/* Grid Helpers for chart layout (optional for future use) */
+.enlarge-btn:hover {
+  background-color: #adb5bd;
+}
+
+/* Responsive SVGs */
+svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin: auto;
+  max-height: unset;
+}
+
+/* Layout Grid */
 .chart-row {
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
+  margin-bottom: 2rem;
+  justify-content: space-between;
 }
 
 .chart-col-6 {
   flex: 1 1 calc(50% - 0.75rem);
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
 }
 
 .chart-col-12 {
   flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .chart-col-6 {
+    flex: 1 1 100%;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .tooltip-stacked {
+    font-size: 10px;
+  }
+
+  .legend-item text {
+    font-size: 14px;
+  }
+}
+
+/* Tooltip */
+.tooltip-stacked {
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 9999;
+}
+
+/* Modal Overlay */
+.chart-modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Modal Content */
+.chart-modal-content {
+  background-color: #fff;
+  width: 95vw;
+  height: 95vh;
+  margin: auto;
+  position: relative;
+  top: 2.5vh;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+}
+
+/* Enlarged Chart Container */
+#enlarged-chart-container {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#enlarged-chart-container svg {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Close Button */
+#closeModal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Legend Interactivity */
+.legend-item {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  font-size: 16px;
+}
+
+.legend-item.inactive {
+  opacity: 0.3;
+}
+
+.legend-item text {
+  font-size: 16px;
+  font-weight: 500;
 }
