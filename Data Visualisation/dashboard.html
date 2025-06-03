@@ -32,11 +32,22 @@
 
         <!-- Pie Chart -->
         <div class="chart-col-6 chart-box">
-          <h2>Age Group Distribution</h2>
+          <h2>
+            Age Group Distribution
+            <button class="enlarge-btn" id="openPieModal" title="Enlarge Chart">&#128269;</button>
+          </h2>
           <div id="pie-chart"></div>
           <div id="pie-legend" class="mt-3"></div>
         </div>
-      </div>
+        
+        <!-- Modal for Enlarged Pie Chart -->
+        <div id="pieChartModal" class="chart-modal">
+          <div class="chart-modal-content">
+            <span id="closePieModal">&times;</span>
+            <div id="enlarged-pie-container"></div>
+          </div>
+        </div>
+
 
       <!-- Bar Chart Full Width -->
       <div class="chart-col-12 chart-box">

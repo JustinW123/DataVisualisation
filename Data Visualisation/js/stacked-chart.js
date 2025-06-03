@@ -193,11 +193,12 @@ function drawStackedChart(containerId, isLarge = false) {
           .on("end", () => {
             activeKeys = [...allKeys];
             drawStackedChart(containerId, isLarge);
-  });
-    });
-  });
-}
+          });
+      });
+      });
+    };
 
+    
 window.onload = () => {
   drawStackedChart("#stacked-chart", false);
 
