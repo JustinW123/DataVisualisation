@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>D3 Dashboard</title>
+  <title>Dashboard</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
+  
+    
 </head>
 <body>
   <div class="d-flex">
-    <!-- Sidebar -->
     <nav class="sidebar">
       <h5 class="text-white mb-4">Dashboard</h5>
       <a href="index.html">Home</a>
@@ -17,20 +18,23 @@
       <a href="about.html">About</a>
     </nav>
 
-    <!-- Main content -->
     <main class="main-content">
+      <div class="chart-box">
+        <h2>Fines by Age Group in 2023</h2>
+        <div id="bar-chart"></div>
+        <p class="mt-3">This chart displays the number of fines issued across different age groups. It highlights demographic trends in fine distribution.</p>
+      </div>
+
       <div class="chart-row">
-        <!-- Stacked Chart -->
         <div class="chart-col-6 chart-box">
           <h2>
-            Monthly Fines by Jurisdiction (Stacked)
+            Monthly Fines by Jurisdiction
             <button class="enlarge-btn" id="openStackedModal" title="Enlarge Chart">🔍</button>
           </h2>
           <div id="stacked-chart"></div>
           <div id="stacked-legend" class="mt-3"></div>
         </div>
 
-        <!-- Pie Chart -->
         <div class="chart-col-6 chart-box">
           <h2>
             Age Group Distribution
@@ -39,17 +43,11 @@
           <div id="pie-chart"></div>
           <div id="pie-legend" class="mt-3"></div>
         </div>
-
-        <!-- Bar Chart Full Width -->
-        <div class="chart-col-12 chart-box">
-          <h2>Fines by Age Group (Bar Chart)</h2>
-          <div id="bar-chart"></div>
-        </div>
       </div>
     </main>
   </div>
 
-  <!-- Modals placed OUTSIDE main -->
+  <!-- Modals -->
   <div id="chartModal" class="chart-modal">
     <div class="chart-modal-content">
       <span id="closeModal">&times;</span>
@@ -64,7 +62,6 @@
     </div>
   </div>
 
-  <!-- D3 Scripts -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="js/shared-constants.js"></script>
   <script src="js/stacked-chart.js"></script>
