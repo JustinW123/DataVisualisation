@@ -32,6 +32,7 @@ function drawStackedChart(containerId, isLarge = false) {
 
     const svg = d3.select(containerId)
       .append("svg")
+      .attr("class", "stacked-chart")
       .attr("viewBox", `0 0 ${chartWidth} ${chartHeight + 180}`)
       .attr("preserveAspectRatio", "xMidYMid meet")
       .attr("width", "100%")
@@ -195,10 +196,9 @@ function drawStackedChart(containerId, isLarge = false) {
             drawStackedChart(containerId, isLarge);
           });
       });
-      });
-    };
+  });
+};
 
-    
 window.onload = () => {
   drawStackedChart("#stacked-chart", false);
 

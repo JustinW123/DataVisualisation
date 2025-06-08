@@ -1,17 +1,49 @@
-// Pie Chart (Isolated Implementation with Modal View + Enlarged Toggle + Smooth Transition + Center Label + Legend)
+// js/pie-chart.js — responsive layout + right-side legend and reset button
 
 function drawPieChart(containerId, isLarge = false) {
   d3.csv("data/jurisdiction.csv", d3.autoType).then(data => {
     const container = d3.select(containerId);
-    const width = isLarge ? 800 : 450;
-    const height = isLarge ? 600 : 450;
-    const radius = Math.min(width, height) / 2 - 30;
+    const width = isLarge ? 1000 : 520;
+    const height = isLarge ? 800 : 400;
+    const radius = Math.min(width, height) / 2 - 40;
 
-    const svg = container
+    container.html("");
+
+    const wrapper = container.append("div")
+      .style("display", "flex")
+      .style("flex-wrap", "nowrap")
+      .style("justify-content", "center")
+      .style("align-items", "center")
+      .style("gap", "2rem")
+      .style("width", "100%")
+      .style("max-width", isLarge ? "95%" : "100%")
+      .style("margin", "0 auto");
+
+    const chartBox = wrapper.append("div")
+      .attr("class", "pie-container")
+      .style("flex", "0 1 auto")
+      .style("max-width", isLarge ? "70%" : "60%")
+      .style("min-width", isLarge ? "600px" : "300px")
+      .style("height", isLarge ? "700px" : "auto");
+
+    const legendBox = wrapper.append("div")
+      .attr("class", "legend-container")
+      .style("flex", "0 0 auto")
+      .style("display", "flex")
+      .style("flex-direction", "column")
+      .style("justify-content", "center")
+      .style("align-items", "flex-start")
+      .style("font-size", isLarge ? "18px" : "13px")
+      .style("min-width", isLarge ? "220px" : "150px");
+
+    const svg = chartBox
       .append("svg")
-      .attr("width", width)
-      .attr("height", height)
-      .append("g")
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("preserveAspectRatio", "xMidYMid meet")
+      .style("width", "100%")
+      .style("height", "100%");
+
+    const g = svg.append("g")
       .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
     const color = d3.scaleOrdinal()
@@ -45,82 +77,135 @@ function drawPieChart(containerId, isLarge = false) {
         .style("opacity", 0);
     }
 
-    const arcs = svg.selectAll("g.slice")
-      .data(pie(data))
-      .enter()
-      .append("g")
-      .attr("class", "slice");
+    let visibleData = new Set(data.map(d => d["JURISDICTION"]));
 
-    arcs.append("path")
-      .attr("fill", d => color(d.data["JURISDICTION"]))
-      .attr("stroke", "#fff")
-      .attr("stroke-width", "2")
-      .transition()
-      .duration(1000)
-      .attrTween("d", function(d) {
-        const i = d3.interpolate({ startAngle: 0, endAngle: 0 }, d);
-        return t => arc(i(t));
-      });
+    function updatePieChart() {
+      const filtered = data.filter(d => visibleData.has(d["JURISDICTION"]));
+      const arcs = pie(filtered);
 
-    arcs.selectAll("path")
-      .on("mouseover", function(event, d) {
-        d3.select(this)
-          .transition().duration(200)
-          .attr("transform", function(d) {
-            const [x, y] = arc.centroid(d);
-            return `translate(${x * 0.1},${y * 0.1})`;
-          });
+      g.selectAll("g.slice").remove();
+      const slices = g.selectAll("g.slice")
+        .data(arcs)
+        .enter()
+        .append("g")
+        .attr("class", "slice");
 
-        tooltip
-          .style("opacity", 1)
-          .html(
-            `<strong>${d.data["JURISDICTION"]}</strong><br>Total: ${d.data["Count(METRIC)"]}<br>(${d3.format(".1%")((d.data["Count(METRIC)"]) / d3.sum(data, d => d["Count(METRIC)"]))})`
-          );
-      })
-      .on("mousemove", event => {
-        tooltip.style("left", `${event.pageX + 12}px`).style("top", `${event.pageY - 28}px`);
-      })
-      .on("mouseout", function() {
-        d3.select(this)
-          .transition().duration(200)
-          .attr("transform", "translate(0,0)");
-        tooltip.style("opacity", 0);
-      });
+      slices.append("path")
+        .attr("fill", d => color(d.data["JURISDICTION"]))
+        .attr("stroke", "#fff")
+        .attr("stroke-width", "2")
+        .transition()
+        .duration(1000)
+        .attrTween("d", function(d) {
+          const i = d3.interpolate({ startAngle: 0, endAngle: 0 }, d);
+          return t => arc(i(t));
+        });
 
-    arcs.append("text")
-      .attr("transform", d => `translate(${labelArc.centroid(d)})`)
-      .attr("dy", "0.35em")
-      .style("text-anchor", "middle")
-      .style("font-size", "11px")
-      .style("fill", "#000")
-      .text(d => {
-        const total = d3.sum(data, d => d["Count(METRIC)"]);
-        const percent = d3.format(".1%")((d.data["Count(METRIC)"]) / total);
-        return `${d.data["JURISDICTION"]} (${percent})`;
-      });
+      slices.selectAll("path")
+        .on("mouseover", function(event, d) {
+          d3.select(this)
+            .transition().duration(200)
+            .attr("transform", function(d) {
+              const [x, y] = arc.centroid(d);
+              return `translate(${x * 0.1},${y * 0.1})`;
+            });
 
-    svg.append("text")
+          tooltip
+            .style("opacity", 1)
+            .html(
+              `<strong>${d.data["JURISDICTION"]}</strong><br>Total: ${d.data["Count(METRIC)"]}<br>(${d3.format(".1%")((d.data["Count(METRIC)"]) / d3.sum(filtered, d => d["Count(METRIC)"]))})`
+            );
+        })
+        .on("mousemove", event => {
+          tooltip.style("left", `${event.pageX + 12}px`).style("top", `${event.pageY - 28}px`);
+        })
+        .on("mouseout", function() {
+          d3.select(this)
+            .transition().duration(200)
+            .attr("transform", "translate(0,0)");
+          tooltip.style("opacity", 0);
+        });
+
+      slices.append("text")
+        .attr("transform", d => `translate(${labelArc.centroid(d)})`)
+        .attr("dy", "0.35em")
+        .style("text-anchor", "middle")
+        .style("font-size", isLarge ? "18px" : "11px")
+        .style("fill", "#000")
+        .text(d => {
+          const total = d3.sum(filtered, d => d["Count(METRIC)"]);
+          const percent = d3.format(".1%")((d.data["Count(METRIC)"]) / total);
+          return `${d.data["JURISDICTION"]} (${percent})`;
+        });
+    }
+
+    g.append("text")
       .attr("x", 0)
       .attr("y", 0)
       .attr("text-anchor", "middle")
-      .style("font-size", "14px")
+      .style("font-size", isLarge ? "24px" : "14px")
       .style("font-weight", "bold")
       .text("Distribution");
 
-    const legend = container.append("div")
+    const legend = legendBox.append("div")
       .attr("class", "legend-pie")
-      .style("max-width", isLarge ? "90%" : null)
-      .style("margin", isLarge ? "0 auto" : null);
+      .style("display", "flex")
+      .style("flex-direction", "column")
+      .style("gap", "10px")
+      .style("align-items", "flex-start");
 
     data.forEach(d => {
-      const item = legend.append("div").attr("class", "legend-item");
+      const key = d["JURISDICTION"];
+      const item = legend.append("div")
+        .attr("class", "legend-item active")
+        .style("cursor", "pointer")
+        .style("display", "flex")
+        .style("align-items", "center")
+        .on("click", function() {
+          d3.select(this)
+            .transition().duration(200)
+            .style("opacity", visibleData.has(key) ? 0.3 : 1);
+
+          if (visibleData.has(key)) {
+            visibleData.delete(key);
+            d3.select(this).classed("inactive", true);
+          } else {
+            visibleData.add(key);
+            d3.select(this).classed("inactive", false);
+          }
+          updatePieChart();
+        });
+
       item.append("div")
         .attr("class", "legend-color-box")
-        .style("background-color", color(d["JURISDICTION"]));
+        .style("background-color", color(key))
+        .style("width", "14px")
+        .style("height", "14px")
+        .style("border-radius", "2px")
+        .style("margin-right", "6px");
 
-      item.append("text")
-        .text(d["JURISDICTION"]);
+      item.append("span")
+        .text(key)
+        .style("font-size", isLarge ? "15px" : "13px");
     });
+
+    legendBox.append("div")
+      .attr("class", "reset-button")
+      .style("margin-top", "20px")
+      .style("text-align", "left")
+      .style("cursor", "pointer")
+      .style("color", "#007bff")
+      .style("font-size", isLarge ? "16px" : "14px")
+      .text("Reset Filter")
+      .on("click", () => {
+        visibleData = new Set(data.map(d => d["JURISDICTION"]));
+        legend.selectAll(".legend-item")
+          .classed("inactive", false)
+          .style("opacity", 1);
+        updatePieChart();
+      });
+
+    updatePieChart();
   });
 }
 
@@ -140,17 +225,14 @@ function initPieModal() {
         drawPieChart("#enlarged-pie-container", true);
         pieDrawn = true;
       }
+      document.body.style.overflow = "hidden";
       pieModal.style.display = "flex";
-      pieModal.style.width = "90vw";
-      pieModal.style.height = "90vh";
-      pieModal.style.margin = "auto";
-      pieModal.style.top = "5vh";
-      pieModal.style.left = "5vw";
     });
 
     pieCloseBtn.addEventListener("click", () => {
       pieModal.style.display = "none";
       pieContainer.innerHTML = "";
+      document.body.style.overflow = "";
       pieDrawn = false;
     });
   }
