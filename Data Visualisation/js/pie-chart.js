@@ -1,15 +1,16 @@
-// Pie Chart (Isolated Implementation with Modal View + Enlarged Toggle + Smooth Transition + Center Label)
+// Pie Chart (Isolated Implementation with Modal View + Enlarged Toggle + Smooth Transition + Center Label + Legend)
 
 function drawPieChart(containerId, isLarge = false) {
   d3.csv("data/jurisdiction.csv", d3.autoType).then(data => {
-    const width = isLarge ? window.innerWidth * 0.6 : 450;
-    const height = isLarge ? window.innerHeight * 0.6 : 450;
+    const container = d3.select(containerId);
+    const width = isLarge ? 800 : 450;
+    const height = isLarge ? 600 : 450;
     const radius = Math.min(width, height) / 2 - 30;
 
-    const svg = d3.select(containerId)
+    const svg = container
       .append("svg")
-      .attr("viewBox", `0 0 ${width} ${height}`)
-      .attr("preserveAspectRatio", "xMidYMid meet")
+      .attr("width", width)
+      .attr("height", height)
       .append("g")
       .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
@@ -54,7 +55,6 @@ function drawPieChart(containerId, isLarge = false) {
       .attr("fill", d => color(d.data["JURISDICTION"]))
       .attr("stroke", "#fff")
       .attr("stroke-width", "2")
-      .style("transition", "transform 0.3s ease")
       .transition()
       .duration(1000)
       .attrTween("d", function(d) {
@@ -64,28 +64,27 @@ function drawPieChart(containerId, isLarge = false) {
 
     arcs.selectAll("path")
       .on("mouseover", function(event, d) {
+        d3.select(this)
+          .transition().duration(200)
+          .attr("transform", function(d) {
+            const [x, y] = arc.centroid(d);
+            return `translate(${x * 0.1},${y * 0.1})`;
+          });
+
         tooltip
           .style("opacity", 1)
           .html(
-            `<strong>${d.data["JURISDICTION"]}</strong><br>Total: ${d.data["Count(METRIC)"]}<br>(${d3.format(".1%")(d.data["Count(METRIC)"] / d3.sum(data, d => d["Count(METRIC)"]))})`
+            `<strong>${d.data["JURISDICTION"]}</strong><br>Total: ${d.data["Count(METRIC)"]}<br>(${d3.format(".1%")((d.data["Count(METRIC)"]) / d3.sum(data, d => d["Count(METRIC)"]))})`
           );
-        d3.select(this)
-          .transition("hover")
-          .duration(200)
-          .attr("transform", function(d) {
-            const [x, y] = arc.centroid(d);
-            return `translate(${x * 0.1}, ${y * 0.1})`;
-          });
       })
       .on("mousemove", event => {
         tooltip.style("left", `${event.pageX + 12}px`).style("top", `${event.pageY - 28}px`);
       })
       .on("mouseout", function() {
-        tooltip.style("opacity", 0);
         d3.select(this)
-          .transition("hover")
-          .duration(200)
+          .transition().duration(200)
           .attr("transform", "translate(0,0)");
+        tooltip.style("opacity", 0);
       });
 
     arcs.append("text")
@@ -96,9 +95,7 @@ function drawPieChart(containerId, isLarge = false) {
       .style("fill", "#000")
       .text(d => {
         const total = d3.sum(data, d => d["Count(METRIC)"]);
-        const percent = d3.format(".1%")(
-          d.data["Count(METRIC)"] / total
-        );
+        const percent = d3.format(".1%")((d.data["Count(METRIC)"]) / total);
         return `${d.data["JURISDICTION"]} (${percent})`;
       });
 
@@ -109,10 +106,24 @@ function drawPieChart(containerId, isLarge = false) {
       .style("font-size", "14px")
       .style("font-weight", "bold")
       .text("Distribution");
+
+    const legend = container.append("div")
+      .attr("class", "legend-pie")
+      .style("max-width", isLarge ? "90%" : null)
+      .style("margin", isLarge ? "0 auto" : null);
+
+    data.forEach(d => {
+      const item = legend.append("div").attr("class", "legend-item");
+      item.append("div")
+        .attr("class", "legend-color-box")
+        .style("background-color", color(d["JURISDICTION"]));
+
+      item.append("text")
+        .text(d["JURISDICTION"]);
+    });
   });
 }
 
-// Modal Logic for Pie Chart
 function initPieModal() {
   drawPieChart("#pie-chart", false);
 
@@ -129,7 +140,12 @@ function initPieModal() {
         drawPieChart("#enlarged-pie-container", true);
         pieDrawn = true;
       }
-      pieModal.style.display = "block";
+      pieModal.style.display = "flex";
+      pieModal.style.width = "90vw";
+      pieModal.style.height = "90vh";
+      pieModal.style.margin = "auto";
+      pieModal.style.top = "5vh";
+      pieModal.style.left = "5vw";
     });
 
     pieCloseBtn.addEventListener("click", () => {

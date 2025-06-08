@@ -19,6 +19,7 @@ body {
   left: 0;
   display: flex;
   flex-direction: column;
+  z-index: 1001;
 }
 
 .sidebar a {
@@ -86,8 +87,6 @@ h2 {
 
 /* Responsive SVGs */
 svg {
-  width: 100%;
-  height: 100%;
   display: block;
   margin: auto;
   max-height: unset;
@@ -149,19 +148,7 @@ svg {
 }
 
 /* Tooltip */
-.tooltip-stacked {
-  position: absolute;
-  background-color: #333;
-  color: #fff;
-  padding: 6px 10px;
-  border-radius: 4px;
-  font-size: 12px;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  z-index: 9999;
-}
-
+.tooltip-stacked,
 .tooltip-pie {
   position: absolute;
   background-color: #333;
@@ -175,13 +162,11 @@ svg {
   z-index: 9999;
 }
 
-
-
 /* Modal Overlay */
 .chart-modal {
   display: none;
   position: fixed;
-  z-index: 999;
+  z-index: 1000;
   top: 0;
   left: 0;
   width: 100vw;
@@ -193,35 +178,22 @@ svg {
 .chart-modal-content {
   background-color: #fff;
   width: 95vw;
-  height: 95vh;
-  margin: auto;
-  position: relative;
-  top: 2.5vh;
+  height: 90vh;
+  margin: 5vh auto;
   border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   overflow: auto;
+  position: relative;
+  z-index: 1002;
 }
 
 /* Enlarged Chart Container */
-#enlarged-chart-container {
-  flex: 1;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#enlarged-chart-container svg {
-  width: 100% !important;
-  height: 100% !important;
-}
-
+#enlarged-chart-container,
 #enlarged-pie-container {
   flex: 1;
   width: 100%;
@@ -229,25 +201,20 @@ svg {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  padding: 2rem;
 }
 
+#enlarged-chart-container svg,
 #enlarged-pie-container svg {
-  width: 100% !important;
-  height: 100% !important;
+  width: 90% !important;
+  height: auto !important;
+  max-height: 90vh !important;
+  max-width: 90vw !important;
 }
-
 
 /* Close Button */
-#closeModal {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-  cursor: pointer;
-}
-
+#closeModal,
 #closePieModal {
   position: absolute;
   top: 15px;
@@ -256,15 +223,16 @@ svg {
   font-weight: bold;
   color: #333;
   cursor: pointer;
-  z-index: 1000;
+  z-index: 1003;
 }
-
 
 /* Legend Interactivity */
 .legend-item {
   cursor: pointer;
   transition: opacity 0.2s ease;
-  font-size: 16px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
 }
 
 .legend-item.inactive {
@@ -272,6 +240,26 @@ svg {
 }
 
 .legend-item text {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
+  margin-left: 4px;
+}
+
+.legend-pie {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-top: 12px;
+  font-size: 13px;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.legend-color-box {
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+  border-radius: 2px;
+  flex-shrink: 0;
 }
