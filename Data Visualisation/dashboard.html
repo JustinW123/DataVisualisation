@@ -6,23 +6,30 @@
   <title>Dashboard</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
-  
-    
 </head>
 <body>
   <div class="d-flex">
     <nav class="sidebar">
-      <h5 class="text-white mb-4">Dashboard</h5>
+      <div class="sidebar-logo">
+        <a href="index.html">
+          <img src="img/auslogo.png" alt="Australia Police Force Logo" />
+        </a>
+      </div>
       <a href="index.html">Home</a>
       <a href="dashboard.html" class="active">Dashboard</a>
       <a href="about.html">About</a>
+      <div class="sidebar-footer">
+        &copy; 2025 Australia Police<br>Justin Wong (102620293)
+      </div>
     </nav>
 
     <main class="main-content">
       <div class="chart-box">
         <h2>Fines by Age Group in 2023</h2>
         <div id="bar-chart"></div>
-        <p class="mt-3">This chart displays the number of fines issued across different age groups. It highlights demographic trends in fine distribution.</p>
+        <p class="mt-3">
+          This bar chart visualises the total number of seatbelt-related fines distributed among various age groups throughout the year 2023. It helps identify which demographics are most frequently fined for non-compliance, highlighting possible areas for targeted education or policy enforcement. Users can dynamically filter and isolate specific age categories using the multi-select feature to reveal deeper patterns.
+        </p>
       </div>
 
       <div class="chart-row">
@@ -33,6 +40,9 @@
           </h2>
           <div id="stacked-chart"></div>
           <div id="stacked-legend" class="mt-3"></div>
+          <p class="mt-3">
+            This stacked area chart breaks down the monthly distribution of seatbelt offence fines across different Australian jurisdictions. It reveals fluctuations in enforcement activity over time and allows comparisons between states. Users can toggle jurisdictions via the legend to focus on specific regions and analyze seasonal enforcement surges.
+          </p>
         </div>
 
         <div class="chart-col-6 chart-box">
@@ -42,6 +52,9 @@
           </h2>
           <div id="pie-chart"></div>
           <div id="pie-legend" class="mt-3"></div>
+          <p class="mt-3">
+            This pie chart illustrates the proportional breakdown of fines across defined age groups. Each slice represents a segment's contribution to the total fine count, providing an at-a-glance understanding of which demographics dominate the violation dataset. The chart is interactive, letting users toggle visibility of each slice to emphasize certain segments.
+          </p>
         </div>
       </div>
     </main>

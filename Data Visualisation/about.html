@@ -9,24 +9,61 @@
 
   <!-- Sidebar -->
   <div class="sidebar">
-    <h4>Dashboard</h4>
+    <div class="sidebar-logo">
+      <a href="index.html">
+        <img src="img/auslogo.png" alt="Australia Police Force Logo" />
+      </a>
+    </div>
     <a href="index.html">Home</a>
-    <a href="index.html">Dashboard</a>
+    <a href="dashboard.html">Dashboard</a>
     <a href="about.html" class="active">About</a>
+    <div class="sidebar-footer">
+      &copy; 2025 Australia Police<br>Justin Wong (102620293)
+    </div>
   </div>
 
   <!-- Main Content -->
   <div class="main-content">
     <div class="chart-box">
       <h2>About This Project</h2>
-      <p>This project is built for exploring and visualising public safety fine data using D3.js. It demonstrates how seatbelt-related fines are distributed across jurisdictions and age groups in 2023.</p>
-      <p>Technologies used include:</p>
+      <p>This web-based interactive dashboard application visualises public safety data, specifically focusing on seatbelt-related fines issued across Australia in the year 2023. The goal is to uncover demographic and geographic patterns within enforcement data using clean, interactive charts that foster deeper understanding for both policymakers and the general public.</p>
+
+      <h3>Dataset & Source</h3>
+      <p>The dataset used is sourced from the <a href="https://data.gov.au" target="_blank">Australian Government Open Data Portal</a>, specifically covering non-seatbelt wearing offences in 2023. It includes fields such as age group, jurisdiction, fine count, and month. The dataset was processed into a CSV format to ensure performance and compatibility with D3 visualisation techniques.</p>
+
+      <h3>Interactive Visualisations</h3>
+      <p>The application provides three interactive visualisation modules:</p>
       <ul>
-        <li>D3.js (Data-Driven Documents)</li>
-        <li>Bootstrap 4 (for base layout)</li>
-        <li>Custom CSS (for layout & styling)</li>
+        <li><strong>Bar Chart</strong> – Displays total fines by age group with a dynamic multi-select dropdown filter to isolate specific demographics.</li>
+        <li><strong>Stacked Area Chart</strong> – Visualises monthly fine totals per jurisdiction, highlighting volume and pattern over time.</li>
+        <li><strong>Pie Chart</strong> – Demonstrates the percentage distribution of total fines among different age brackets.</li>
       </ul>
-      <p>Built as part of an academic project to showcase interactive data visualisation dashboards.</p>
+
+      <h3>Dynamic Filtering & Interactivity</h3>
+      <ul>
+        <li>Interactive legend filtering on pie and stacked charts</li>
+        <li>Hoverable tooltips showing context-specific fine data</li>
+        <li>Modal-based chart enlargement for deeper focus</li>
+        <li>Responsive layout accommodating desktop and mobile users</li>
+      </ul>
+
+      <h3>Technology Stack</h3>
+      <ul>
+        <li><strong>D3.js (v7)</strong> – Used for declarative chart building and data binding</li>
+        <li><strong>Bootstrap 4</strong> – Supports responsive grid and layout base</li>
+        <li><strong>Custom CSS</strong> – Defines application visual style, structure, and responsiveness</li>
+        <li><strong>Modular JavaScript</strong> – Each chart type uses dedicated scripts for maintainability and separation of concerns</li>
+      </ul>
+
+      <h3>How to Use the Dashboard</h3>
+      <ol>
+        <li>Visit the <strong>Dashboard</strong> via the sidebar or home button.</li>
+        <li>Use the <strong>bar chart dropdown</strong> to filter fines by age group.</li>
+        <li>Click on the <strong>magnifier icon</strong> to enlarge a chart for better analysis.</li>
+        <li>Use the <strong>legend</strong> on pie/stacked charts to enable/disable segments for clarity.</li>
+      </ol>
+
+      <p>This academic project demonstrates how front-end web technologies can be leveraged to tell compelling data stories. It supports informed decision-making and raises awareness about enforcement trends relating to public safety violations.</p>
     </div>
   </div>
 
